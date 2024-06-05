@@ -1,0 +1,5 @@
+numpy==1.26.*
+opencv-python-headless==4.9.*
+scipy==1.13.*
+tqdm==4.66.*
+zstandard==0.22.*

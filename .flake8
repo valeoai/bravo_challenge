@@ -1,0 +1,10 @@
+[flake8]
+max-line-length = 120
+# E122 - continuation line missing indentation or outdented
+# E127 - continuation line over-indented for visual indent
+# E201 - whitespace after '('
+# E202 - whitespace before ')'
+# E225 - missing whitespace around operator
+# E501 - line too long (managed by pylint, which ignores when line is too long because of directives)
+# E731 - do not assign a lambda expression, use a def
+extend-ignore = E127,E201,E202,E225,E501,E731

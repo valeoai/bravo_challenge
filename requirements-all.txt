@@ -1,0 +1,11 @@
+numpy
+opencv-python-headless
+scipy
+tqdm
+zstandard
+# For development and testing
+scikit-learn
+matplotlib
+mypy
+pillow
+pytest
