@@ -19,16 +19,18 @@ export PYTHONPATH=<local_repo_root>
 
 ## Encoding the submission files to the submission format
 
+To encode the submission, you'll need to download the sampling file [bravo_SAMPLING.tar](https://github.com/valeoai/bravo_challenge/releases/download/v0.1.0/bravo_SAMPLING.tar).
+
 The submission files must be in a directory tree or in a .tar file. Use one of the commands below:
 
 ```bash
-python -m bravo_toolkit.util.encode_submission <submission-root-directory> <encoded-submission-output.tar>
+python -m bravo_toolkit.util.encode_submission <submission-root-directory> <encoded-submission-output.tar> --samples bravo_SAMPLING.tar
 ```
 
 or
 
 ```bash
-python -m bravo_toolkit.util.encode_submission <submission-raw-files.tar> <encoded-submission-output.tar>
+python -m bravo_toolkit.util.encode_submission <submission-raw-files.tar> <encoded-submission-output.tar> --samples bravo_SAMPLING.tar
 ```
 
 ## Expected format for the raw input images
