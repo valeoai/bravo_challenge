@@ -39,6 +39,8 @@ For the class prediction files (`_pred.png`): PNG format, 8-bits, grayscale, wit
 
 For the confidence files (`_conf.png`): PNG format, 16-bits, grayscale, with each pixel with a value from 0 to 65535 corresponding to the confidence on the prediction (for the predicted class). For confidences originally computed on a continuous [0.0, 1.0] interval, we suggest discretizing them using the formula: `min(floor(conf*65536), 65535)`
 
+Each prediction and confidence images should have exactly the same dimensions as the corresponding input image. The evaluation is made pixel-wise.
+
 ## Expected input directory tree for the submission
 
 The submission directory, or raw input tar file expected by `encode_submission` should have the following structure:
