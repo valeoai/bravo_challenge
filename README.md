@@ -17,6 +17,8 @@ conda activate bravo
 export PYTHONPATH=<local_repo_root>
 ```
 
+We use Anaconda in the examples above, but its use is not strictly necessary. Any environment manager able to provide an isolated Python 3.9 environment (e.g., virtualenv) is acceptable.
+
 ## Encoding the submission files to the submission format
 
 To encode the submission, you'll need to download the sampling file [bravo_SAMPLING.tar](https://github.com/valeoai/bravo_challenge/releases/download/v0.1.0/bravo_SAMPLING.tar).
