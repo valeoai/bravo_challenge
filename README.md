@@ -157,7 +157,7 @@ The submission has to be compressed and encoded before being uploaded to the Eva
 Clone this repository to `local_repo_root` and create an environment with the requirements:
 
 ```bash
-cd bravo_toolkit
+cd <local_repo_root>
 conda create -n bravo python=3.9
 conda activate bravo
 python -m pip install -r requirements.txt
