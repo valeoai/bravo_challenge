@@ -1,17 +1,3 @@
-<style>
-.image-container {
-    display: flex;
-    justify-content: space-between;
-    overflow-x: auto;
-    white-space: nowrap;
-}
-
-.image-container img {
-    max-width: calc(95% / 5);
-    height: auto;
-}
-</style>
-
 # BRAVO Challenge
 
 The 2024 BRAVO Challenge aims to benchmark segmentation models on urban scenes undergoing diverse forms of natural degradation and realistic-looking synthetic corruption. We propose two tracks.
@@ -50,57 +36,57 @@ Get the full benchmark dataset at the following link: [full BRAVO Dataset downlo
 The dataset includes the following subsets (with individual download links):
 
 **bravo-ACDC:** real scenes captured in adverse weather conditions, i.e., fog, night, rain, and snow. ([download link](https://drive.google.com/drive/u/4/folders/1IW6-Tdfk2At6CrIIrA-QJF6CEcHgqqha) or directly from [ACDC website](https://acdc.vision.ee.ethz.ch/download))
-    <p class="image-container">
-        <img src="images/bravobenchmark/acdc/acdc1.png" alt="Image 1">
-        <img src="images/bravobenchmark/acdc/acdc2.png" alt="Image 2">
-        <img src="images/bravobenchmark/acdc/acdc3.png" alt="Image 3">
-        <img src="images/bravobenchmark/acdc/acdc4.png" alt="Image 4">
-        <img src="images/bravobenchmark/acdc/acdc5.png" alt="Image 5">
+    <p style="display: flex; justify-content: space-between; overflow-x: auto; white-space: nowrap;">
+        <img src="images/bravobenchmark/acdc/acdc1.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/acdc/acdc2.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/acdc/acdc3.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/acdc/acdc4.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/acdc/acdc5.png" style="max-width: calc(95% / 5); height: auto;">
     </p>
 
 **bravo-SMIYC:** real scenes featuring out-of-distribution (OOD) objects rarely encountered on the road. ([download link](https://drive.google.com/drive/u/4/folders/1XnC9_7RzwZCWaDpP3iETbGt7Y
-    <p class="image-container">
-        <img src="images/bravobenchmark/smiyc/smiyc1.jpg" alt="Image 1">
-        <img src="images/bravobenchmark/smiyc/smiyc2.jpg" alt="Image 2">
-        <img src="images/bravobenchmark/smiyc/smiyc3.jpg" alt="Image 3">
-        <img src="images/bravobenchmark/smiyc/smiyc4.jpg" alt="Image 4">
-        <img src="images/bravobenchmark/smiyc/smiyc5.jpg" alt="Image 5">
+    <p style="display: flex; justify-content: space-between; overflow-x: auto; white-space: nowrap;">
+        <img src="images/bravobenchmark/smiyc/smiyc1.jpg" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/smiyc/smiyc2.jpg" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/smiyc/smiyc3.jpg" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/smiyc/smiyc4.jpg" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/smiyc/smiyc5.jpg" style="max-width: calc(95% / 5); height: auto;">
     </p>
 
 **bravo-synrain:** augmented scenes with synthesized raindrops on the camera lens. We augmented the validation images of Cityscapes and generated 500 images with raindrops. ([download link](https://drive.google.com/drive/u/4/folders/1onP6tUVSjV-qKWWLm6wiOZCB9U14_gQ6))
-    <p class="image-container">
-        <img src="images/bravobenchmark/synrain/rain1.png" alt="Image 1">
-        <img src="images/bravobenchmark/synrain/rain2.png" alt="Image 2">
-        <img src="images/bravobenchmark/synrain/rain3.png" alt="Image 3">
-        <img src="images/bravobenchmark/synrain/rain4.png" alt="Image 4">
-        <img src="images/bravobenchmark/synrain/rain5.png" alt="Image 5">
+    <p style="display: flex; justify-content: space-between; overflow-x: auto; white-space: nowrap;">
+        <img src="images/bravobenchmark/synrain/rain1.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synrain/rain2.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synrain/rain3.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synrain/rain4.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synrain/rain5.png" style="max-width: calc(95% / 5); height: auto;">
     </p>
 
 **bravo-synobjs:** augmented scenes with inpainted synthetic OOD objects. We augmented the validation images of Cityscapes and generated 656 images with 26 OOD objects. ([download link](https://drive.google.com/drive/u/4/folders/1KKt_25S69DBf8ZTxhOhELpLgS2gyyGnf))
-    <p class="image-container">
-        <img src="images/bravobenchmark/synobjs/cheetah.png" alt="Image 1">
-        <img src="images/bravobenchmark/synobjs/chimpanzee.png" alt="Image 2">
-        <img src="images/bravobenchmark/synobjs/lion.png" alt="Image 3">
-        <img src="images/bravobenchmark/synobjs/panda.png" alt="Image 4">
-        <img src="images/bravobenchmark/synobjs/penguine.png" alt="Image 5">
+    <p style="display: flex; justify-content: space-between; overflow-x: auto; white-space: nowrap;">
+        <img src="images/bravobenchmark/synobjs/cheetah.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synobjs/chimpanzee.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synobjs/lion.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synobjs/panda.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synobjs/penguine.png" style="max-width: calc(95% / 5); height: auto;">
     </p>
 
 **bravo-synflare:** augmented scenes with synthesized light flares. We augmented the validation images of Cityscapes and generated 308 images with random light flares. ([download link](https://drive.google.com/drive/u/4/folders/13EpBXUY8BChoqfMxR5JhiyhqrzqLAO2y))
-    <p class="image-container">
-        <img src="images/bravobenchmark/synflare/flare1.png" alt="Image 1">
-        <img src="images/bravobenchmark/synflare/flare2.png" alt="Image 2">
-        <img src="images/bravobenchmark/synflare/flare3.png" alt="Image 3">
-        <img src="images/bravobenchmark/synflare/flare4.png" alt="Image 4">
-        <img src="images/bravobenchmark/synflare/flare5.png" alt="Image 5">
+    <p style="display: flex; justify-content: space-between; overflow-x: auto; white-space: nowrap;">
+        <img src="images/bravobenchmark/synflare/flare1.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synflare/flare2.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synflare/flare3.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synflare/flare4.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synflare/flare5.png" style="max-width: calc(95% / 5); height: auto;">
     </p>
 
 **bravo-outofcontext:** augmented scenes with random backgrounds. We augmented the validation images of Cityscapes and generated 329 images with random random backgrounds. ([download link](https://drive.google.com/drive/u/4/folders/1NoXqTQWxrj_yKMNRKLOd1rnn2TjqIaU5))
-    <p class="image-container">
-        <img src="images/bravobenchmark/synooc/ooc1.png" alt="Image 1">
-        <img src="images/bravobenchmark/synooc/ooc2.png" alt="Image 2">
-        <img src="images/bravobenchmark/synooc/ooc3.png" alt="Image 3">
-        <img src="images/bravobenchmark/synooc/ooc4.png" alt="Image 4">
-        <img src="images/bravobenchmark/synooc/ooc5.png" alt="Image 5">
+    <p style="display: flex; justify-content: space-between; overflow-x: auto; white-space: nowrap;">
+        <img src="images/bravobenchmark/synooc/ooc1.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synooc/ooc2.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synooc/ooc3.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synooc/ooc4.png" style="max-width: calc(95% / 5); height: auto;">
+        <img src="images/bravobenchmark/synooc/ooc5.png" style="max-width: calc(95% / 5); height: auto;">
     </p>
 
 
