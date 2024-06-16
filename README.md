@@ -1,6 +1,10 @@
 # BRAVO Challenge
 
-The 2024 BRAVO Challenge aims to benchmark segmentation models on urban scenes undergoing diverse forms of natural degradation and realistic-looking synthetic corruption. We propose two tracks.
+The 2024 BRAVO Challenge aims to benchmark semantic segmentation models on urban scenes undergoing diverse forms of natural degradation and realistic-looking synthetic corruption.
+
+We promote the 2024 BRAVO Challenge in conjunction with the [3rd Workshop on Uncertainty Quantification for Computer Vision](https://uncertainty-cv.github.io/2024/) @ [ECCV 2024](https://eccv2024.ecva.net/).
+
+We propose two tracks:
 
 ### Track 1 – Single-domain training
 
@@ -21,11 +25,12 @@ Allowed training datasets for Track 2:
 
 ## 1. General rules
 
-1. Models in each track must be trained using only the datasets allowed for that track.
-2. Employing generative models for synthetic data augmentation is strictly forbidden.
-3. All results must be reproducible. Participants must submit a white paper containing comprehensive technical details alongside their results. Participants must make models and inference code accessible.
-4. Evaluation will consider the 19 classes of Cityscapes (see below).
-
+1. The task is semantic segmentation with pixel-wise evaluation performed on the 19 semantic classes of Cityscapes.
+2. Models in each track must be trained using only the datasets allowed for that track.
+3. Employing generative models for data augmentation is strictly forbidden.
+4. All results must be reproducible. Participants must submit a white paper containing comprehensive technical details alongside their results. Participants must make models and inference code accessible.
+5. Evaluation will consider the 19 classes of Cityscapes (see below).
+6. Teams must register a single account for submitting to the evaluation server. An organization (e.g. a University) may have several teams with independent accounts only if the teams are not cooperating on the challenge.
 
 ## 2. The BRAVO Benchmark Dataset
 
@@ -90,6 +95,8 @@ The dataset includes the following subsets (with individual download links):
 
 ## 3. Metrics
 
+The evaluation is performed on the 19 semantic classes of Cityscapes.
+
 The metrics are computed separately for 9 subsets of the benchmark dataset: ACDCfog, ACDCrain, ACDCnight, ACDCsnow, SMIYC, synrain, synobjs, synflare, and outofcontext.
 
 The metrics are computed pixel-wise and averaged over the pixels of the images belonging to a subset.
@@ -98,49 +105,46 @@ For each subset, the following metrics are computed:
 
 ### 3.1. Semantic metrics
 
-- **mIoU**: mean Intersection Over Union, the rate of corrected labeled  pixels over all pixels. Evaluated on subsets: ACDC*, synrain, synflare, outofcontext.
-- **ECE**: Expected Calibration Error, quantifying the mismatch between predicted confidence and actual accuracy. Evaluated on subsets: ACDC*, synrain, synflare, outofcontext.
-- **AUROC**: Area Under the ROC Curve, over the binary criterion of a pixel being accurate, ranked by the predicted confidence level for the pixel. Evaluated on subsets: ACDC*, synrain, synflare, synobjs, SMIYC.
-- **FPR@95**: False Positive Rate when True Positive Rate is 95% computed in the ROC curve above. Evaluated on subsets: ACDC*, synrain, synflare, synobjs, SMIYC.
-- **AUPR-Success**: Area Under the Precision-Recall curve, over the same data as the AUROC. Evaluated on subsets: ACDC*, synrain, synflare, outofcontext.
-- **AUPR-Error**: Area Under the Precision-Recall, on the reversed data (pixel being inaccurate, ranked by 1-confidence). Evaluated on subsets: ACDC*, synrain, synflare, outofcontext.
+- **mIoU**: mean Intersection Over Union, the rate of corrected labeled  pixels over all pixels.
+- **ECE**: Expected Calibration Error, quantifying the mismatch between predicted confidence and actual accuracy.
+- **AUROC**: Area Under the ROC Curve, over the binary criterion of a pixel being accurate, ranked by the predicted confidence level for the pixel.
+- **FPR@95**: False Positive Rate when True Positive Rate is 95% computed in the ROC curve above.
+- **AUPR-Success**: Area Under the Precision-Recall curve, over the same data as the AUROC.
+- **AUPR-Error**: Area Under the Precision-Recall, on the reversed data (pixel being inaccurate, ranked by 1-confidence).
 
-Those metrics are computed for all pixels, all "invalid pixels" (e.g., those behind a flare or an unknown object), and all valid pixels (those unaffected by the "invalidating" transformations).
+Those metrics are computed on all subsets, except for SMIYC, for all valid pixels of each image. Valid pixels are those not "invalidated" by extreme uncertainty, e.g., pixels behind the brightest areas of a flare, or behind an OOD object are considered invalid.
 
 ### 3.2. Out-of-distribution metrics
 
 Those are the AUROC, AUPRC-Success, and FPR@95 metrics above, but over different data: the (ground-truth) status of a pixel being invalid ranked by reversed predicted confidence (1-confidence). Those metrics quantify whether the model attributes, as expected, less confidence to the invalid pixels.
 
+Those metrics are computed for the subsets: SMIYC and synobjects.
+
+### 3.3. Summary metrics
+
+We choose the [harmonic mean](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.hmean.html) as the aggregation statistic. We compute it for each subset, for all semantic metrics (`semantic_hmean`), and for all ood metrics (`ood_hmean`) .
+
+### 3.4. Official ranking metric
+
+The official ranking metric for the public leaderboard is the `bravo_index`, which is the harmonic mean of the `semantic_hmean` and the `ood_hmean`.
+
 ## 4. Creating a submission
 
-For each input image "source.png", we require two submitted files "source_pred.png" for the semantic prediction and "source_conf.png" for the confidences.
+For each input image "source.*", we require two submitted files "source_pred.png" for the semantic prediction and "source_conf.png" for the confidences.
 
 ### 4.1 Expected format for the raw input images
 
 For the class prediction files (`_pred.png`): PNG format, 8-bits, grayscale, with each pixel with a value from 0 to 19 corresponding to the 19 classes of Cityscapes, which are, in order:
 
-0. road
-1. sidewalk
-2. building
-3. wall
-4. fence
-5. pole
-6. traffic light
-7. traffic sign
-8. vegetation
-9. terrain
-10. sky
-11. person
-12. rider
-13. car
-14. truck
-15. bus
-16. train
-17. motorcycle
-18. bicycle.
+|                |                 |                |                |
+|----------------|-----------------|----------------|----------------|
+| 0. road        | 5. pole         | 10. sky        | 15. bus        |
+| 1. sidewalk    | 6. traffic light| 11. person     | 16. train      |
+| 2. building    | 7. traffic sign | 12. rider      | 17. motorcycle |
+| 3. wall        | 8. vegetation   | 13. car        | 18. bicycle    |
+| 4. fence       | 9. terrain      | 14. truck      |                |
 
-For the confidence files (`_conf.png`): PNG format, 16-bits, grayscale, with each pixel's value from 0 to 65535 corresponding to the confidence in the prediction (for the predicted class).
-For confidences  computed initially on a continuous [0.0, 1.0] interval, we suggest discretizing them using the formula: `min(floor(conf*65536), 65535)`
+For the confidence files (`_conf.png`): PNG format, 16-bits, grayscale, with each pixel's value from 0 to 65535 corresponding to the confidence in the prediction (for the predicted class). Confidences are evaluated on an entire subset of the dataset at once and, thus, are expected to be commensurable across the images of a subset.
 
 Each prediction and confidence image should have exactly the same dimensions as the corresponding input image. The evaluation is made pixel-wise.
 
@@ -191,14 +195,41 @@ python -m bravo_toolkit.util.encode_submission <submission-raw-files.tar> <encod
 
 We are excited to unveil the BRAVO Challenge as an initiative within [ELSA — European Lighthouse on Secure and Safe AI](https://www.elsa-ai.eu/), a network of excellence funded by the European Union. The BRAVO Challenge is officially featured on the [ELSA Benchmarks website](https://benchmarks.elsa-ai.eu/) as the Autonomous Driving/Robust Perception task.
 
-Please refer to the [task website](https://benchmarks.elsa-ai.eu/?ch=1&com=introduction) for more instructions on uploading the submission.
+1. Use the task website to upload your submission: https://benchmarks.elsa-ai.eu/?ch=1&com=introduction
+2. The BRAVO Challenge appears as "Autonomous Driving" on the submission server
+3. Each team must register one single account on the submission server
+4. Submissions to the server are initially private and **do not** appear on the leaderboard. You must edit your submission to **make it public before the deadline** for it to count for the challenge
 
+
+## 5. Baselines
+
+Baseline techniques are available as optional inspiration and points of departure for the teams. Those are:
+
+- RbA: Segmenting Unknown Regions Rejected by All (Nayal et al., ICCV 2023)
+- Triggering Failures: Out-Of-Distribution detection by learning from local adversarial attacks in Semantic Segmentation (Besnier et al., ICCV 2021)
+
+The code for those baselines, already adapted for the challenge data, is on the `baselines/` folder of this code repository.
+
+## 6. Timeline
+
+|Date|Event|
+|-|-|
+|2024-06-17 Mon|BRAVO Challenge 2024 launched, data and code available for download|
+|2024-07-01 Mon|Submission server open|
+|2024-08-23 Fri|Submission deadline (23:59 CEST)|
+|2024-08-27 Tue|Technical whitepaper deadline (23:59 CEST)|
+
+## 7. Support
+
+If you have inquires on the challenge data, code, rules, metrics, etc., please use the [issues of this repository](https://github.com/valeoai/bravo_challenge/issues?q=is%3Aissue). Please check whether your issue (or a sufficiently similar one) has already been answered before opening a new one.
 
 ## Acknowledgements
 
 We extend our heartfelt gratitude to the authors of [ACDC](https://acdc.vision.ee.ethz.ch/contact/), [SegmentMeIfYouCan](https://segmentmeifyoucan.com/), and [Out-of-context Cityscapes](https://arxiv.org/abs/2108.00968) for generously permitting us to repurpose their benchmarking data. We are also thankful to the authors of [GuidedDisent](https://github.com/astra-vision/GuidedDisent) and [Flare Removal](https://github.com/google-research/google-research/tree/master/flare_removal) for providing the amazing toolboxes that helped synthesize realistic-looking raindrops and light flares. All those people collectively contributed to creating BRAVO, a unified benchmark for robustness in autonomous driving.
 
-## A1. Expected input directory tree for the submission
+## Appendix
+
+### A1. Expected input directory tree for the submission
 
 The submission directory, or raw input tar file expected by `encode_submission` should have the following structure:
 
