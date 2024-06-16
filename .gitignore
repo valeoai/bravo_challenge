@@ -1,5 +1,4 @@
 # project specific
-.vscode/
 *.bin
 results/
 outputs/
