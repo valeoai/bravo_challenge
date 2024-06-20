@@ -227,9 +227,9 @@ If you have inquires on the challenge data, code, rules, metrics, etc., please 
 
 We extend our heartfelt gratitude to the authors of [ACDC](https://acdc.vision.ee.ethz.ch/contact/), [SegmentMeIfYouCan](https://segmentmeifyoucan.com/), and [Out-of-context Cityscapes](https://arxiv.org/abs/2108.00968) for generously permitting us to repurpose their benchmarking data. We are also thankful to the authors of [GuidedDisent](https://github.com/astra-vision/GuidedDisent) and [Flare Removal](https://github.com/google-research/google-research/tree/master/flare_removal) for providing the amazing toolboxes that helped synthesize realistic-looking raindrops and light flares. All those people collectively contributed to creating BRAVO, a unified benchmark for robustness in autonomous driving.
 
-The BRAVO Challenge is an initiative within [ELSA — European Lighthouse on Secure and Safe AI](https://www.elsa-ai.eu/), a network of excellence funded by the European Union.
+The BRAVO Challenge is an initiative within [ELSA — European Lighthouse on Secure and Safe AI](https://www.elsa-ai.eu/), a network of excellence funded by the European Union. Views and opinions expressed are however those of the authors only and do not necessarily reflect those of the European Union or ELSA. Neither the European Union nor ELSA can be held responsible for them.
 
-<a href="https://elsa-ai.eu/" target="_blank"><img style="width: 30%; height: auto;" src="images/logos/elsa.png" alt=""></a>
+<a href="https://elsa-ai.eu/" target="_blank"><img style="width: 60%; height: auto;" src="images/logos/combined-logo.png" alt=""></a>
 
 ## Appendix
 
