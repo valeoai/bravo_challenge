@@ -122,7 +122,7 @@ Those metrics are computed for the subsets: SMIYC and synobjects.
 
 ### 3.3. Summary metrics
 
-We choose the [harmonic mean](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.hmean.html) as the aggregation statistic. We compute it for each subset, for all semantic metrics (`semantic_hmean`), and for all ood metrics (`ood_hmean`) .
+We choose the [harmonic mean](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.hmean.html) as the aggregation statistic. We compute it for each subset, for all semantic metrics (`semantic_hmean`), and for all ood metrics (`ood_hmean`). In the aggregation, the ECE and the FPR@95 metrics enter reversed as `1.0-<original value>`. The other metrics enter unmodified.
 
 ### 3.4. Official ranking metric
 

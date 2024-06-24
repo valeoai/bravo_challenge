@@ -372,7 +372,6 @@ def evaluate_bravo(*,
             if valid_indices.size > SAMPLES_PER_IMG:
                 valid_indices = np.random.choice(valid_indices, SAMPLES_PER_IMG, replace=False)
 
-
             # ...gets derived subsampled arrays (all, valid, and invalid independent)
             conf_file_nv = conf_file[non_void]
             class_right_valid = gt_file_nv[valid_indices] == pred_file_nv[valid_indices]
@@ -457,7 +456,9 @@ def update_results(all_results, new_results, new_key):
 
 
 def summarize_results(all_results, subsets):
-    scalars = {k: v for k, v in all_results.items() if np.isscalar(v)}
+    scalars = {k: v if '_ece_' not in k and '_fpr95_' not in k else 1.-v  # ECE and FPR95 are lower-is-better
+               for k, v in all_results.items()
+               if np.isscalar(v)}
     for s in subsets:
         subset_scalars = np.array([v for k, v in scalars.items() if k.startswith(f'{s}_')])
         all_results[f'{s}_hmean'] = stats.hmean(subset_scalars)
