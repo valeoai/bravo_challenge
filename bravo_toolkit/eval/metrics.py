@@ -259,7 +259,8 @@ def get_auprc(tp_counts, fp_counts):
 
     # Calculate precision and recall
     pp_cumsum = tp_cumsum + fp_cumsum  # Cumulative sum of positive predictions
-    precision = np.where(pp_cumsum == 0, 1., tp_cumsum / pp_cumsum)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        precision = np.where(pp_cumsum == 0, 1., tp_cumsum / pp_cumsum)
     recall = (tp_cumsum / p_total) if p_total > 0 else tp_cumsum
 
     # Starts from an implicit (0, 1) point

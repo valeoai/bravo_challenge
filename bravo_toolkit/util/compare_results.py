@@ -3,7 +3,7 @@ import math
 import json
 
 
-def compare_dicts(dict1, dict2, key_path='', *, tolerance=0.001, decimals=4):
+def compare_dicts(dict1, dict2, key_path='', *, tolerance=0.001, decimals=4, ignore_missing=False):
     if not isinstance(dict1, dict) or not isinstance(dict2, dict):
         raise ValueError("Both inputs should be dictionaries.")
 
@@ -25,11 +25,13 @@ def compare_dicts(dict1, dict2, key_path='', *, tolerance=0.001, decimals=4):
         new_path = f"{key_path}.{key}" if key_path else key
 
         if key in missing_in_dict1:
-            print(f"{new_path}: missing in first")
+            if not ignore_missing:
+                print(f"{new_path}: missing in first")
             continue
 
         if key in missing_in_dict2:
-            print(f"{new_path}: missing in second")
+            if not ignore_missing:
+                print(f"{new_path}: missing in second")
             continue
 
         value1, value2 = dict1[key], dict2[key]
@@ -51,6 +53,7 @@ def main():
     parser.add_argument("json_file2", metavar='results2.json', type=str, help="Path to the second results JSON file")
     parser.add_argument("--tolerance", type=float, default=0.001, help="tolerance for comparing floats")
     parser.add_argument("--decimals", type=int, default=4, help="number of decimals for displaying floats")
+    parser.add_argument("--ignore-missing", action='store_true', help="ignores missing keys in either file")
     args = parser.parse_args()
 
     with open(args.json_file1, 'rt', encoding='utf-8') as file1:
@@ -58,7 +61,7 @@ def main():
     with open(args.json_file2, 'rt', encoding='utf-8') as file2:
         dict2 = json.load(file2)
 
-    compare_dicts(dict1, dict2, tolerance=args.tolerance, decimals=args.decimals)
+    compare_dicts(dict1, dict2, tolerance=args.tolerance, decimals=args.decimals, ignore_missing=args.ignore_missing)
 
 
 if __name__ == "__main__":
