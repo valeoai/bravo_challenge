@@ -40,6 +40,7 @@ from typing import Tuple
 import zlib
 
 import numpy as np
+import numpy.typing as npt
 import zstandard as zstd
 
 
@@ -72,9 +73,9 @@ def _decompress(data: bytes) -> bytes:
     return data
 
 
-def bravo_encode(class_array: np.ndarray[np.uint8],
-                 confidence_array: np.ndarray[np.uint16],
-                 confidence_indices: np.ndarray[np.uint32]) -> bytes:
+def bravo_encode(class_array: npt.NDArray[np.uint8],
+                 confidence_array: npt.NDArray[np.uint16],
+                 confidence_indices: npt.NDArray[np.uint32]) -> bytes:
     """
     Encode a class array and confidence array into a BRAVO compressed byte-string.
 
@@ -146,7 +147,7 @@ def bravo_encode(class_array: np.ndarray[np.uint8],
 
 
 def bravo_decode(encoded_bytes: bytes,
-                 dequantize: bool = False) -> Tuple[np.ndarray[np.uint8], np.ndarray, dict]:
+                 dequantize: bool = False) -> Tuple[npt.NDArray[np.uint8], np.ndarray, dict]:
     """
     Decode a BRAVO compressed byte-string into a class array and confidence array. The confidence array is NOT upsampled
     to the original size, and downstream processing should take care of this if needed.

@@ -180,8 +180,7 @@ def evaluate_bravo(*,
                    submission_suffix=SUBMISSION_SUFFIX,
                    samples_suffix=SAMPLES_SUFFIX,
                    semantic_metrics=True,
-                   invalid_metrics=False,
-                   ood_scores=False,
+                   ood_metrics=False,
                    compare_old=False,
                    compare_old_seed=1,
                    show_counters=False,
@@ -200,8 +199,7 @@ def evaluate_bravo(*,
         samples_suffix (str): suffix for loading sample files, default is `SAMPLES_SUFFIX`
         other_names (iterable of str): iterable of additional name substrings that must be present in ground truths
         semantic_metrics (bool): compute semantic metrics, default is True
-        invalid_metrics (bool): compute invalid AUC metrics, default is False
-        ood_scores (bool): compute OOD scores, default is False
+        ood_metrics (bool): compute OOD scores, default is False
         compare_old (bool): comparison mode (old submission format and 100k pixels for curve-based metrics, used for
                 test purposes only, do not use in production), default is False
         compare_old_seed (int): seed for the comparison mode, default is 1
@@ -289,19 +287,12 @@ def evaluate_bravo(*,
     # Performs evaluation
 
     # ...accumulated confusion matrices for class labels, valid pixels, and invalid pixels (in pixel counts)
-    cm = np.zeros((NUM_CLASSES, NUM_CLASSES))
     cm_valid = np.zeros((NUM_CLASSES, NUM_CLASSES))
-    cm_invalid = np.zeros((NUM_CLASSES, NUM_CLASSES))
 
     # ...accumulated true positive/false positive pixel counts for semantic curve-based metrics
-    # ......class labels, all pixels
-    gt_tp = np.zeros(CONF_N_LEVELS)  # Prediction == Ground-truth
-    gt_fp = np.zeros(CONF_N_LEVELS)
-    # ......class labels, valid and invalid pixels
+    # ......class labels, valid pixels
     gt_tp_valid = np.zeros(CONF_N_LEVELS)
     gt_fp_valid = np.zeros(CONF_N_LEVELS)
-    gt_tp_invalid = np.zeros(CONF_N_LEVELS)
-    gt_fp_invalid = np.zeros(CONF_N_LEVELS)
     # ......ood detection
     ood_tp = np.zeros(CONF_N_LEVELS)  # Prediction == OOD (invalid zone)
     ood_fp = np.zeros(CONF_N_LEVELS)
@@ -355,9 +346,7 @@ def evaluate_bravo(*,
         mask_valid_nv = mask_valid[non_void]
         mask_invalid_nv = ~mask_valid_nv
         # ...computes matrices
-        cm += fast_cm(gt_file_nv, pred_file_nv, NUM_CLASSES)
         cm_valid += fast_cm(gt_file_nv[mask_valid_nv], pred_file_nv[mask_valid_nv], NUM_CLASSES)
-        cm_invalid += fast_cm(gt_file_nv[mask_invalid_nv], pred_file_nv[mask_invalid_nv], NUM_CLASSES)
 
         # Debug counters, no effect on metrics
         if show_counters:
@@ -382,18 +371,13 @@ def evaluate_bravo(*,
             valid_indices = np.nonzero(mask_valid_nv)[0]
             if valid_indices.size > SAMPLES_PER_IMG:
                 valid_indices = np.random.choice(valid_indices, SAMPLES_PER_IMG, replace=False)
-            invalid_indices = np.nonzero(mask_invalid_nv)[0]
-            if invalid_indices.size > SAMPLES_PER_IMG:
-                invalid_indices = np.random.choice(invalid_indices, SAMPLES_PER_IMG, replace=False)
+
 
             # ...gets derived subsampled arrays (all, valid, and invalid independent)
             conf_file_nv = conf_file[non_void]
-            class_right_all = gt_file_nv[all_indices] == pred_file_nv[all_indices]
             class_right_valid = gt_file_nv[valid_indices] == pred_file_nv[valid_indices]
-            class_right_invalid = gt_file_nv[invalid_indices] == pred_file_nv[invalid_indices]
             conf_all = conf_file_nv[all_indices]
             conf_valid = conf_file_nv[valid_indices]
-            conf_invalid = conf_file_nv[invalid_indices]
             gt_ood = mask_invalid_nv[all_indices]
 
         else:
@@ -408,23 +392,16 @@ def evaluate_bravo(*,
                 f'({conf_indices.size if conf_indices is not None else None})'
 
             # ...gets derived subsampled arrays (all aligned to the confidences)
-            class_right_all = gt_file == pred_file
-            class_right_valid = class_right_all[mask_valid]
-            class_right_invalid = class_right_all[mask_invalid]
+            class_right_valid = (gt_file == pred_file)[mask_valid]
             conf_all = conf_file
             conf_valid = conf_file[mask_valid]
-            conf_invalid = conf_file[mask_invalid]
             gt_ood = mask_invalid
 
         all_invalid += np.sum(gt_ood)
 
         # ...gets cummulative true positives and false positives pixel counts for each confidence level
-        # ......class labels, all pixels
-        get_tp_fp_counts(class_right_all, conf_all, gt_tp, gt_fp, score_levels=CONF_N_LEVELS)
         # ......class labels, valid pixels
         get_tp_fp_counts(class_right_valid, conf_valid, gt_tp_valid, gt_fp_valid, score_levels=CONF_N_LEVELS)
-        # ......class labels, invalid pixels
-        get_tp_fp_counts(class_right_invalid, conf_invalid, gt_tp_invalid, gt_fp_invalid, score_levels=CONF_N_LEVELS)
         # ......ood detection
         doubt = CONF_N_LEVELS - 1 - conf_all
         get_tp_fp_counts(gt_ood, doubt, ood_tp, ood_fp, score_levels=CONF_N_LEVELS)
@@ -434,34 +411,20 @@ def evaluate_bravo(*,
 
     logger.info('evaluate_bravo - computing metrics...')
 
-    miou = iou = miou_valid = miou_invalid = iou_valid = iou_invalid = None
-    auroc = fpr95 = auprc_success = auprc_error = ece = None
-    auroc_valid = fpr95_valid = auprc_success_valid = auprc_error_valid = ece_valid = None
-    auroc_invalid = fpr95_invalid = auprc_success_invalid = auprc_error_invalid = ece_invalid = None
+    miou_valid = iou_valid = auroc_valid = fpr95_valid = auprc_success_valid = auprc_error_valid = ece_valid = None
     auroc_ood = fpr95_ood = auprc_ood = None
 
     if semantic_metrics:
         # Metrics based on the ground-truth class labels <= cm, cm_valid, cm_invalid
         # ...mean intersection over union (mIoU) for all pixels, valid pixels, and invalid pixels
-        iou = per_class_iou(cm).tolist()
-        miou = np.nanmean(iou)
         iou_valid = per_class_iou(cm_valid).tolist()
         miou_valid = np.nanmean(iou_valid)
-        if all_invalid > 0:
-            iou_invalid = per_class_iou(cm_invalid).tolist()
-            miou_invalid = np.nanmean(iou_invalid)
         # ...curve-based metrics <= gt_tp, gt_fp, gt_tp_valid, gt_fp_valid, gt_tp_invalid, gt_fp_invalid
-        logger.debug('all -  tp: %s, fp: %s', np.sum(gt_tp), np.sum(gt_fp))
         logger.debug('valid -  tp: %s, fp: %s', np.sum(gt_tp_valid), np.sum(gt_fp_valid))
-        logger.debug('invalid -  tp: %s, fp: %s', np.sum(gt_tp_invalid), np.sum(gt_fp_invalid))
-        auroc, fpr95, auprc_success, auprc_error, ece = get_curve_metrics(gt_tp, gt_fp)
         auroc_valid, fpr95_valid, auprc_success_valid, auprc_error_valid, ece_valid = \
                 get_curve_metrics(gt_tp_valid, gt_fp_valid)
-        if invalid_metrics:
-            auroc_invalid, fpr95_invalid, auprc_success_invalid, auprc_error_invalid, ece_invalid = \
-                    get_curve_metrics(gt_tp_invalid, gt_fp_invalid)
 
-    if ood_scores:
+    if ood_metrics:
         if all_invalid == 0:
             logger.error('evaluate_bravo - no invalid pixels found for OOD detection')
             raise ValueError('No invalid pixels found for OOD detection')
@@ -471,13 +434,6 @@ def evaluate_bravo(*,
         auroc_ood, fpr95_ood, auprc_ood, _, _ = get_curve_metrics(ood_tp, ood_fp)
 
     computed_metrics = {
-        'miou': miou,
-        'iou': iou,
-        'ece': ece,
-        'auroc': auroc,
-        'auprc_success': auprc_success,
-        'auprc_error': auprc_error,
-        'fpr95': fpr95,
         'miou_valid': miou_valid,
         'iou_valid': iou_valid,
         'ece_valid': ece_valid,
@@ -485,13 +441,6 @@ def evaluate_bravo(*,
         'auprc_success_valid': auprc_success_valid,
         'auprc_error_valid': auprc_error_valid,
         'fpr95_valid': fpr95_valid,
-        'miou_invalid': miou_invalid,
-        'iou_invalid': iou_invalid,
-        'ece_invalid': ece_invalid,
-        'auroc_invalid': auroc_invalid,
-        'auprc_success_invalid': auprc_success_invalid,
-        'auprc_error_invalid': auprc_error_invalid,
-        'fpr95_invalid': fpr95_invalid,
         'auroc_ood': auroc_ood,
         'auprc_ood': auprc_ood,
         'fpr95_ood': fpr95_ood,
@@ -511,13 +460,14 @@ def summarize_results(all_results, subsets):
     scalars = {k: v for k, v in all_results.items() if np.isscalar(v)}
     for s in subsets:
         subset_scalars = np.array([v for k, v in scalars.items() if k.startswith(f'{s}_')])
-        all_results[f'{s}_amean'] = np.mean(subset_scalars)
-        all_results[f'{s}_gmean'] = stats.gmean(subset_scalars)
         all_results[f'{s}_hmean'] = stats.hmean(subset_scalars)
-    all_scalars = np.array([v for v in scalars.values()])
-    all_results['bravo_amean'] = np.mean(all_scalars)
-    all_results['bravo_gmean'] = stats.gmean(all_scalars)
-    all_results['bravo_hmean'] = stats.hmean(all_scalars)
+    all_semantic = [v for k, v in scalars.items() if k.endswith('_valid')]
+    all_ood = [v for k, v in scalars.items() if k.endswith('_ood')]
+    semantic_hmean = stats.hmean(all_semantic)
+    ood_hmean = stats.hmean(all_ood)
+    all_results['semantic_hmean'] = semantic_hmean
+    all_results['ood_hmean'] = ood_hmean
+    all_results['bravo_index'] = stats.hmean([semantic_hmean, ood_hmean])
 
 
 def default_evaluation_params():
@@ -592,8 +542,6 @@ def evaluate_method(gt_path, submission_path, extra_params=None):
         results = evaluate_bravo(gt_data=gt_data,
                                  submission_data=submission_data,
                                  split_name='synrain',
-                                 invalid_metrics=True,
-                                 ood_scores=True,
                                  **extra_params)
         update_results(all_results, results, 'synrain')
 
@@ -603,7 +551,7 @@ def evaluate_method(gt_path, submission_path, extra_params=None):
                                  submission_data=submission_data,
                                  split_name='SMIYC',
                                  semantic_metrics=False,
-                                 ood_scores=True,
+                                 ood_metrics=True,
                                  **extra_params)
         update_results(all_results, results, 'SMIYC')
 
@@ -612,7 +560,7 @@ def evaluate_method(gt_path, submission_path, extra_params=None):
         results = evaluate_bravo(gt_data=gt_data,
                                  submission_data=submission_data,
                                  split_name='synobjs',
-                                 ood_scores=True,
+                                 ood_metrics=True,
                                  **extra_params)
         update_results(all_results, results, 'synobjs')
 
@@ -621,7 +569,6 @@ def evaluate_method(gt_path, submission_path, extra_params=None):
         results = evaluate_bravo(gt_data=gt_data,
                                  submission_data=submission_data,
                                  split_name='synflare',
-                                 ood_scores=True,
                                  **extra_params)
         update_results(all_results, results, 'synflare')
 
