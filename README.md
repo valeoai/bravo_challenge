@@ -231,6 +231,10 @@ The BRAVO Challenge is an initiative within [ELSA — European Lighthouse on Sec
 
 <a href="https://elsa-ai.eu/" target="_blank"><img style="width: 60%; height: auto;" src="images/logos/combined-logo.png" alt=""></a>
 
+## Code and Data Licenses
+
+See <a href="https://github.com/valeoai/bravo_challenge/blob/main/LICENSE.md" target="_blank">LICENSE.md</a>.
+
 ## Appendix
 
 ### A1. Expected input directory tree for the submission

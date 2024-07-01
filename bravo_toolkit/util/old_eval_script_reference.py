@@ -1,5 +1,9 @@
+# Copyright (c) 2024 Valeo
+# See LICENSE.md for details.
+
 # pylint: skip-file
 # flake8 : noqa
+
 import argparse
 import json
 import logging
