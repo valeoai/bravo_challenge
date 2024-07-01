@@ -1,3 +1,6 @@
+# Copyright (c) 2024 Valeo
+# See LICENSE.md for details.
+
 from itertools import chain, product
 
 import numpy as np
