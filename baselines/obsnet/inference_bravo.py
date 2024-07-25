@@ -94,7 +94,7 @@ def test(args):
             _obs_pred = _obs_pred.cpu().numpy()
             
             # upscale prediction to original size
-            _obs_pred = cv2.resize(_obs_pred, (im_orisize[1], im_orisize[0]), interpolation=cv2.INTER_LINEAR)
+            _obs_pred = cv2.resize(_obs_pred, (im_orisize[0], im_orisize[1]), interpolation=cv2.INTER_LINEAR)
             _seg_pred = torch.nn.functional.interpolate(_seg_pred, size=(im_orisize[1], im_orisize[0]), mode='bilinear', align_corners=False)
             _seg_pred = torch.argmax(_seg_pred, dim=1)
             
