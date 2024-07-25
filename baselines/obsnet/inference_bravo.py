@@ -71,7 +71,6 @@ def test(args):
     with torch.no_grad():
         for i, file in enumerate(tqdm(args.imgs)):
             img, im_orisize = img2tensor(file, args)
-
             # Inference
             start = time.time()
             _seg_pred, _obs_pred = _inference(img, segnet, obsnet)
@@ -79,29 +78,24 @@ def test(args):
             total_time += time.time() - start
             img = (img - img.min()) / (img.max() - img.min())
             
-            # Post processing
-            _seg_pred_tmp = torch.argmax(_seg_pred, dim=1)
-            
             _obs_pred = torch.sigmoid(_obs_pred)
             
-            _obs_pred_normalized = (_obs_pred - _obs_pred.min()) / (_obs_pred.max() - _obs_pred.min())
-            obs_pred_normalized = torch.zeros_like(_obs_pred_normalized)
-            for c in args.stuff_classes:
-                mask = torch.where(_seg_pred_tmp[0] == c, args.one, args.zero)
-                obs_pred_normalized += mask * _obs_pred_normalized
-            obs_pred_normalized += 0.01 * _obs_pred_normalized
-            obs_pred_normalized = torch.clamp(obs_pred_normalized, 0, 0.99).cpu().numpy()
-            
-            obs_pred = torch.zeros_like(_obs_pred)
-            for c in args.stuff_classes:
-                mask = torch.where(_seg_pred_tmp[0] == c, args.one, args.zero)
-                obs_pred += mask * _obs_pred
-            obs_pred += 0.01 * _obs_pred
-            obs_pred = torch.clamp(obs_pred, 0, 0.99).cpu().numpy()
+            # Post processing (removed)! 
+            # BRAVO note: remove the trick in obsnet that filters OOD pixels using semantic results
+            #
+            # _seg_pred_tmp = torch.argmax(_seg_pred, dim=1)
+            # obs_pred = torch.zeros_like(_obs_pred)
+            # for c in args.stuff_classes:
+            #     mask = torch.where(_seg_pred_tmp[0] == c, args.one, args.zero)
+            #     obs_pred += mask * _obs_pred
+            # obs_pred += 0.01 * _obs_pred
+            # obs_pred = torch.clamp(obs_pred, 0, 0.99).cpu().numpy()
             
             _obs_pred = _obs_pred.cpu().numpy()
             
             # upscale prediction to original size
+            _obs_pred = cv2.resize(_obs_pred, (im_orisize[1], im_orisize[0]), interpolation=cv2.INTER_LINEAR)
+            _seg_pred = torch.nn.functional.interpolate(_seg_pred, size=(im_orisize[1], im_orisize[0]), mode='bilinear', align_corners=False)
             _seg_pred = torch.argmax(_seg_pred, dim=1)
             
             filepath = file[len(args.img_folder):]
@@ -113,20 +107,9 @@ def test(args):
                 os.makedirs(os.path.dirname(destfile_pred))
             cv2.imwrite(destfile_pred, pred)
             
-            destfile_conf = os.path.join(args.dest_folder, filepath).replace(img_suffix, '_semfilt_conf.png')
-            conf = ((1-obs_pred) * 65535).astype(np.uint16)
-            cv2.imwrite(destfile_conf, conf)
-            np.save(destfile_conf.replace('.png', '.npy'), 1-obs_pred)
-            
-            destfile_conf = os.path.join(args.dest_folder, filepath).replace(img_suffix, '_normalized_conf.png')
-            conf = ((1-obs_pred_normalized) * 65535).astype(np.uint16)
-            cv2.imwrite(destfile_conf, conf)
-            np.save(destfile_conf.replace('.png', '.npy'), 1-obs_pred_normalized)
-            
             destfile_conf = os.path.join(args.dest_folder, filepath).replace(img_suffix, '_conf.png')
             conf = ((1-_obs_pred) * 65535).astype(np.uint16)
             cv2.imwrite(destfile_conf, conf)
-            np.save(destfile_conf.replace('.png', '.npy'), 1-_obs_pred)
         
             print(f"Test: image: {i}, progression: {i/len(args.imgs)*100:.1f} %, img = {file.split('/')[-1]} ")
     print(f"Inference run time: {len(args.imgs)/total_time:.1f} FPS")
@@ -151,8 +134,7 @@ if __name__ == '__main__':
     args.one = torch.FloatTensor([1.]).to(args.device)
     args.zero = torch.FloatTensor([0.]).to(args.device)
     
-    # splits = ['ACDC', 'SMIYC', 'outofcontext', 'synflare', 'synobjs', 'synrain']
-    splits = ['outofcontext']
+    splits = ['ACDC', 'SMIYC', 'outofcontext', 'synflare', 'synobjs', 'synrain']
         
     for split in splits:
         args.split = split
