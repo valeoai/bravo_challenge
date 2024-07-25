@@ -124,7 +124,7 @@ def get_datasets(datasets_folder):
     # )
     DATASETS = edict(
         bravo_ACDC=BRAVO(hparams=bravo_ACDC_config, transforms=transform),
-        bravo_SMIYC=BRAVO(hparams=bravo_SMIYC_config, transforms=transform_ra_21),
+        bravo_SMIYC=BRAVO(hparams=bravo_SMIYC_config, transforms=transform),
         bravo_outofcontext=BRAVO(hparams=bravo_outofcontext_config, transforms=transform),
         bravo_synflare=BRAVO(hparams=bravo_synflare_config, transforms=transform),
         bravo_synobjs=BRAVO(hparams=bravo_synobjs_config, transforms=transform),
