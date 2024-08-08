@@ -211,9 +211,9 @@ The code for those baselines, already adapted for the challenge data, is on the 
 
 ## 6. Technical white papers
 
-Each team must submit a technical whitepaper describing the techniques attempted. Teams may choose to describe multiple submissions in a single report or if they prefer to make multiple reports: it should be clear which submissions are described in each report. 
+Each team must submit a technical whitepaper describing the techniques attempted. Teams may choose to describe multiple submissions in a single report or make multiple reports. It should be clear which submissions are described in each report. 
 
-Each report must have at most 4500 words (discounting references) and at most 5 floats, in any template reasonably resembling a reasearch paper.
+Each report must have at most 4500 words (discounting references) and at most 5 floats in any template reasonably resembling a research paper.
 
 We will collect the best results into a summary report, submitted within the scope of the UNCV Workshop, with the authors of the winning submissions as co-authors.
 
