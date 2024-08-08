@@ -28,7 +28,7 @@ Allowed training datasets for Track 2:
 1. The task is semantic segmentation with pixel-wise evaluation performed on the 19 semantic classes of Cityscapes.
 2. Models in each track must be trained using only the datasets allowed for that track.
 3. Employing generative models for data augmentation is strictly forbidden.
-4. All results must be reproducible. Participants must submit a white paper containing comprehensive technical details alongside their results. Participants must make models and inference code accessible.
+4. All results must be reproducible. Participants must submit a white paper containing comprehensive technical details alongside their results (see details below). Participants must make models and inference code accessible.
 5. Evaluation will consider the 19 classes of Cityscapes (see below).
 6. Teams must register a single account for submitting to the evaluation server. An organization (e.g. a University) may have several teams with independent accounts only if the teams are not cooperating on the challenge.
 
@@ -203,14 +203,21 @@ We are excited to unveil the BRAVO Challenge as an initiative within [ELSA — E
 
 ## 5. Baselines
 
-Baseline techniques are available as optional inspiration and points of departure for the teams. Those are:
+Baseline techniques are available as optional inspiration and points of departure for the teams, including:
 
-- RbA: Segmenting Unknown Regions Rejected by All (Nayal et al., ICCV 2023)
 - Triggering Failures: Out-Of-Distribution detection by learning from local adversarial attacks in Semantic Segmentation (Besnier et al., ICCV 2021)
 
 The code for those baselines, already adapted for the challenge data, is on the `baselines/` folder of this code repository.
 
-## 6. Timeline
+## 6. Technical white papers
+
+Each team must submit a technical whitepaper describing the techniques attempted. Teams may choose to describe multiple submissions in a single report or if they prefer to make multiple reports: it should be clear which submissions are described in each report. 
+
+Each report must have at most 4500 words (discounting references) and at most 5 floats, in any template reasonably resembling a reasearch paper.
+
+We will collect the best results into a summary report, submitted within the scope of the UNCV Workshop, with the authors of the winning submissions as co-authors.
+
+## 7. Timeline
 
 |Date|Event|
 |-|-|
@@ -219,7 +226,7 @@ The code for those baselines, already adapted for the challenge data, is on the 
 |2024-08-23 Fri|Submission deadline (23:59 CEST)|
 |2024-08-27 Tue|Technical whitepaper deadline (23:59 CEST)|
 
-## 7. Support
+## 8. Support
 
 If you have inquires on the challenge data, code, rules, metrics, etc., please use the [issues of this repository](https://github.com/valeoai/bravo_challenge/issues?q=is%3Aissue). Please check whether your issue (or a sufficiently similar one) has already been answered before opening a new one.
 
