@@ -39,6 +39,7 @@ We created the benchmark dataset with real, captured images and realistic-lookin
 Get the full benchmark dataset at the following link: [full BRAVO Dataset download link](https://drive.google.com/drive/u/4/folders/11-dnlbMjm8O_ynq1REuDYKOmHLqEhGYP).
 
 The dataset includes the following subsets (with individual download links):
+
 **bravo-ACDC:** real scenes captured in adverse weather conditions, i.e., fog, night, rain, and snow. ([download link](https://drive.google.com/drive/u/4/folders/1IW6-Tdfk2At6CrIIrA-QJF6CEcHgqqha) or directly from [ACDC website](https://acdc.vision.ee.ethz.ch/download))
     <div><!--
       --><img src="images/bravobenchmark/acdc/acdc1.png" style="width: 19%; height: auto;"> <!--
