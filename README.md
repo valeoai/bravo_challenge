@@ -1,3 +1,5 @@
+🔥[24/09/2024]🚀 checkout our [ECCV'24 paper](https://arxiv.org/abs/2409.15107) summarizing the BRAVO challenge 2024.
+
 # BRAVO Challenge
 
 The 2024 BRAVO Challenge aims to benchmark semantic segmentation models on urban scenes undergoing diverse forms of natural degradation and realistic-looking synthetic corruption.
@@ -237,6 +239,15 @@ Please consider citing our paper in your publications if the project helps your 
 @inproceedings{vu2024bravo,
   title={The BRAVO Semantic Segmentation Challenge Results in UNCV2024},
   author={Vu, Tuan-Hung and Valle, Eduardo and Bursuc, Andrei and Kerssies, Tommie and de Geus, Daan and Dubbelman, Gijs and Qian, Long and Zhu, Bingke and Chen, Yingying and Tang, Ming and Wang, Jinqiao and Vojíř, Tomáš and Šochman, Jan and Matas, Jiří and Smith, Michael and Ferrie, Frank and Basu, Shamik and Sakaridis, Christos and Van Gool, Luc},
+  booktitle={ECCV},
+  year={2024}
+}
+```
+
+```
+@inproceedings{loiseau2024reliability,
+  title={Reliability in Semantic Segmentation: Can We Use Synthetic Data?},
+  author={Loiseau, Thibaut and Vu, Tuan-Hung and Chen, Mickael and P{\'e}rez, Patrick and Cord, Matthieu},
   booktitle={ECCV},
   year={2024}
 }
