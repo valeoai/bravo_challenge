@@ -231,6 +231,17 @@ We will collect the best results into a summary report, submitted within the sco
 
 If you have inquires on the challenge data, code, rules, metrics, etc., please use the [issues of this repository](https://github.com/valeoai/bravo_challenge/issues?q=is%3Aissue). Please check whether your issue (or a sufficiently similar one) has already been answered before opening a new one.
 
+## 📖 Citation
+Please consider citing our paper in your publications if the project helps your research. BibTeX reference is as follows.
+```
+@inproceedings{vu2024bravo,
+  title={The BRAVO Semantic Segmentation Challenge Results in UNCV2024},
+  author={Vu, Tuan-Hung and Valle, Eduardo and Bursuc, Andrei and Kerssies, Tommie and de Geus, Daan and Dubbelman, Gijs and Qian, Long and Zhu, Bingke and Chen, Yingying and Tang, Ming and Wang, Jinqiao and Vojíř, Tomáš and Šochman, Jan and Matas, Jiří and Smith, Michael and Ferrie, Frank and Basu, Shamik and Sakaridis, Christos and Van Gool, Luc},
+  booktitle={ECCV},
+  year={2024}
+}
+```
+
 ## Acknowledgements
 
 We extend our heartfelt gratitude to the authors of [ACDC](https://acdc.vision.ee.ethz.ch/contact/), [SegmentMeIfYouCan](https://segmentmeifyoucan.com/), and [Out-of-context Cityscapes](https://arxiv.org/abs/2108.00968) for generously permitting us to repurpose their benchmarking data. We are also thankful to the authors of [GuidedDisent](https://github.com/astra-vision/GuidedDisent) and [Flare Removal](https://github.com/google-research/google-research/tree/master/flare_removal) for providing the amazing toolboxes that helped synthesize realistic-looking raindrops and light flares. All those people collectively contributed to creating BRAVO, a unified benchmark for robustness in autonomous driving.
