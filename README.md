@@ -1,4 +1,5 @@
 ❗❗[09/10/2024] We corrected some numbers reported in Tables 1,3,4,5 and 10. Please refer to the last revision of the [ECCV'24 paper](https://arxiv.org/abs/2409.15107).
+
 🔥[24/09/2024]🚀 check out our [ECCV'24 paper](https://arxiv.org/abs/2409.15107) summarizing the BRAVO challenge 2024.
 
 # BRAVO Challenge
