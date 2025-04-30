@@ -1,4 +1,4 @@
-🚀 🚀 🚀 [2025-05-01] The BRAVO Challenge 2025 is now live! The submission server is open. The first submission deadline is June 6, 2026, which is concluded in the [4th UNCV workshop](https://uncertainty-cv.github.io/2025/) at [CVPR'2025](https://cvpr.thecvf.com/Conferences/2025)
+**🚀 🚀 🚀 [2025-05-01] The BRAVO Challenge 2025 is now live! The submission server is open. The first submission deadline is June 6, 2026, which is concluded in the [4th UNCV workshop](https://uncertainty-cv.github.io/2025/) at [CVPR'2025](https://cvpr.thecvf.com/Conferences/2025)**
 
 <span style="color:gray">[2024-10-09] We corrected some numbers reported in Tables 1,3,4,5 and 10. Please refer to the last revision of the [ECCV'24 paper](https://arxiv.org/abs/2409.15107).</span>
 
