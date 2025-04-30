@@ -1,20 +1,35 @@
-# BRAVO Challenge
+🔥🔥🔥[2025-05-01] The BRAVO Challenge 2025 is now live! The submission server is open. The first submission deadline is June 6, 2026, which is concluded in the [4th UNCV workshop](https://uncertainty-cv.github.io/2025/) at [CVPR'2025](https://cvpr.thecvf.com/Conferences/2025)
 
-The 2024 BRAVO Challenge aims to benchmark semantic segmentation models on urban scenes undergoing diverse forms of natural degradation and realistic-looking synthetic corruption.
+<span style="color:gray">[2024-10-09] We corrected some numbers reported in Tables 1,3,4,5 and 10. Please refer to the last revision of the [ECCV'24 paper](https://arxiv.org/abs/2409.15107).</span>
 
-We promote the 2024 BRAVO Challenge in conjunction with the [3rd Workshop on Uncertainty Quantification for Computer Vision](https://uncertainty-cv.github.io/2024/) @ [ECCV 2024](https://eccv2024.ecva.net/).
+<span style="color:gray">[2024-09-24]🚀 check out our [ECCV'24 paper](https://arxiv.org/abs/2409.15107) summarizing the BRAVO challenge 2024.</span>
 
-We propose two tracks:
+# BRAVO Challenge 2025
 
-### Track 1 – Single-domain training
+The BRAVO Challenge 2025 aims to benchmark semantic segmentation models on urban scenes undergoing diverse forms of natural degradation and realistic-looking synthetic corruption.
+
+We promote the BRAVO Challenge 2025 in conjunction with the [4th Workshop on Uncertainty Quantification for Computer Vision](https://uncertainty-cv.github.io/2025/) @ [CVPR 2025](https://cvpr.thecvf.com/Conferences/2025).
+
+In the 2025 edition, we extend the challenge with a new track on synthetic-domain training, while continuing the two real-domain training tracks from the BRAVO Challenge 2024.
+
+### 🔥[NEW] Synthetic-domain training
+In this track, you must train your models exclusively on the synthetic datasets. This track evaluates the robustness of models trained solely on synthetic data when facing corruptions observed in real-world scenarios.
+
+Allowed training datasets for this track:
+- [GTA5 Dataset](https://download.visinf.tu-darmstadt.de/data/from_games/) (synthetic)
+- [SYNTHIA Dataset](https://synthia-dataset.net/) (synthetic)
+- [UrbanSyn Dataset](https://www.urbansyn.org/) (synthetic)
+- [SHIFT Dataset](https://www.vis.xyz/shift/) (synthetic)
+
+### Single real-domain training
 
 In this track, you must train your models exclusively on the [Cityscapes dataset](https://www.cityscapes-dataset.com/). This track evaluates the robustness of models trained with limited supervision and geographical diversity when facing unexpected corruptions observed in real-world scenarios.
 
-### Track 2 – Multi-domain training
+### Multi real-domain training
 
 In this track, you must train your models over a mix of datasets, whose choice is strictly limited to the list provided below, comprising both natural and synthetic domains. This track assesses the impact of fewer constraints on the training data on robustness.
 
-Allowed training datasets for Track 2:
+Allowed training datasets for this track:
 - [Cityscapes](https://www.cityscapes-dataset.com/)
 - [BDD100k](https://bdd-data.berkeley.edu/)
 - [Mapillary Vistas](https://www.mapillary.com/datasets)
@@ -28,7 +43,7 @@ Allowed training datasets for Track 2:
 1. The task is semantic segmentation with pixel-wise evaluation performed on the 19 semantic classes of Cityscapes.
 2. Models in each track must be trained using only the datasets allowed for that track.
 3. Employing generative models for data augmentation is strictly forbidden.
-4. All results must be reproducible. Participants must submit a white paper containing comprehensive technical details alongside their results. Participants must make models and inference code accessible.
+4. All results must be reproducible. Participants must submit a white paper containing comprehensive technical details alongside their results (see details below). Participants must make models and inference code accessible.
 5. Evaluation will consider the 19 classes of Cityscapes (see below).
 6. Teams must register a single account for submitting to the evaluation server. An organization (e.g. a University) may have several teams with independent accounts only if the teams are not cooperating on the challenge.
 
@@ -39,6 +54,7 @@ We created the benchmark dataset with real, captured images and realistic-lookin
 Get the full benchmark dataset at the following link: [full BRAVO Dataset download link](https://drive.google.com/drive/u/4/folders/11-dnlbMjm8O_ynq1REuDYKOmHLqEhGYP).
 
 The dataset includes the following subsets (with individual download links):
+
 **bravo-ACDC:** real scenes captured in adverse weather conditions, i.e., fog, night, rain, and snow. ([download link](https://drive.google.com/drive/u/4/folders/1IW6-Tdfk2At6CrIIrA-QJF6CEcHgqqha) or directly from [ACDC website](https://acdc.vision.ee.ethz.ch/download))
     <div><!--
       --><img src="images/bravobenchmark/acdc/acdc1.png" style="width: 19%; height: auto;"> <!--
@@ -210,18 +226,46 @@ Baseline techniques are available as optional inspiration and points of departur
 
 The code for those baselines, already adapted for the challenge data, is on the `baselines/` folder of this code repository.
 
-## 6. Timeline
+## 6. Technical white papers
+
+Each team must submit a technical whitepaper describing the techniques attempted. Teams may choose to describe multiple submissions in a single report or make multiple reports. It should be clear which submissions are described in each report. 
+
+Each report must have at most 4500 words (discounting references) and at most 5 floats in any template reasonably resembling a research paper.
+
+We will collect the best results into a summary report, submitted within the scope of the UNCV Workshop, with the authors of the winning submissions as co-authors.
+
+## 7. Timeline of BRAVO 2025
 
 |Date|Event|
 |-|-|
-|2024-06-17 Mon|BRAVO Challenge 2024 launched, data and code available for download|
-|2024-07-01 Mon|Submission server open|
-|2024-08-23 Fri|Submission deadline (23:59 CEST)|
-|2024-08-27 Tue|Technical whitepaper deadline (23:59 CEST)|
+|2025-05-01 Thu|BRAVO Challenge 2025 launched. Submission server open|
+|2025-06-06 Fri|1st submission deadline for CVPR'2025 (23:59 CEST)|
+|2025-XX-XX XXX|2nd submission deadline to conclude BRAVO'2025, tentatively at ICCV'2025 (23:59 CEST)|
+|2025-XX-XX XXX|Whitepaper deadline (23:59 CEST)|
 
-## 7. Support
+## 8. Support
 
 If you have inquires on the challenge data, code, rules, metrics, etc., please use the [issues of this repository](https://github.com/valeoai/bravo_challenge/issues?q=is%3Aissue). Please check whether your issue (or a sufficiently similar one) has already been answered before opening a new one.
+
+## 📖 Citation
+Please consider citing our paper in your publications if the project helps your research. BibTeX reference is as follows.
+```
+@inproceedings{vu2024bravo,
+  title={The BRAVO Semantic Segmentation Challenge Results in UNCV2024},
+  author={Vu, Tuan-Hung and Valle, Eduardo and Bursuc, Andrei and Kerssies, Tommie and de Geus, Daan and Dubbelman, Gijs and Qian, Long and Zhu, Bingke and Chen, Yingying and Tang, Ming and Wang, Jinqiao and Vojíř, Tomáš and Šochman, Jan and Matas, Jiří and Smith, Michael and Ferrie, Frank and Basu, Shamik and Sakaridis, Christos and Van Gool, Luc},
+  booktitle={ECCV},
+  year={2024}
+}
+```
+
+```
+@inproceedings{loiseau2024reliability,
+  title={Reliability in Semantic Segmentation: Can We Use Synthetic Data?},
+  author={Loiseau, Thibaut and Vu, Tuan-Hung and Chen, Mickael and P{\'e}rez, Patrick and Cord, Matthieu},
+  booktitle={ECCV},
+  year={2024}
+}
+```
 
 ## Acknowledgements
 
